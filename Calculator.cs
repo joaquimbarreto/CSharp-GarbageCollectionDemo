@@ -6,7 +6,33 @@ using System.Threading.Tasks;
 
 namespace GarbageCollectionDemo
 {
-    class Calculator
+    class Calculator : IDisposable
     {
+        private bool disposed = false;
+        public Calculator()
+        {
+            Console.WriteLine("Calculator being created.");
+        }
+
+        ~Calculator()
+        {
+            Console.WriteLine("Calculator being finalised");
+            this.Dispose();
+        }
+        public int Divide(int first, int second)
+        {
+            return first / second;
+        }
+
+        public void Dispose()
+        {
+            if (!this.disposed)
+            {
+                Console.WriteLine("Calculator being disposed");
+            }
+
+            this.disposed = true;
+            GC.SuppressFinalize(this);
+        }
     }
 }
